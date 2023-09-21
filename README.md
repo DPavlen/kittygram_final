@@ -91,29 +91,6 @@ http://127.0.0.1/
 sudo docker compose -f docker-compose.yml down
 ```
 
-## Настройка и запуск deploy.
-В локальном проекте замените в файле docker-compose.production.yml названия образов в соответствии с вашим логином на DockerHub в нижнем регистре (Например your_name/kittygram_backend).
-Также в директории /.github/workflows/ файл main.yml необходимо изменить названия образов.
-Сделайте коммит с файлом main.yml и со всеми остальными изменёнными файлами. Как только вы инициируете коммит и отправите изменения на GitHub, GitHub Action начнет свою работу:
-```
-git add .
-```
-```
-git commit -m 'Add Actions'
-```
-```
-git push
-```
-После пуша workflow должен сработать. Доверяй, но проверяй: надо удостовериться, что всё прошло по плану. В своём репозитории на GitHub(https://github.com/) во вкладку Actions. После окончания работы воркера в ваш Telegram придёт сообщение от бота:
-
-Деплой Kittygram успешно выполнен!
-
-После этого можно вернуться на Ваш удалённый сервер, в директорию kittygram и создать суперпользователя:
-```
-sudo docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
-```
-В конце вы можете получить доступ к сайту по его доменному имени. Все работает, браво!
-
 ## Автор проекта: 
-### Павленко Дмитрий
+**Павленко Дмитрий**
 - Ссылка на мой профиль в GitHub [Dmitry Pavlenko](https://github.com/DPavlen)
