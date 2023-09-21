@@ -43,6 +43,55 @@
 
 Настроить запуск проекта Kittygram в контейнерах и CI/CD с помощью GitHub Actions
 
+## Запуск проекта в Docker контейнерах с помощью Docker Compose
+
+Склонируйте проект из репозитория:
+```
+git clone git@github.com:DPavlen/kittygram_final.git
+```
+Перейдите в директорию проекта kittygram_final:
+```
+cd kittygram_final/
+```
+Создайте файл .env для PostgreSQL в корне проекта и контейнера backend, впишите в него переменные для инициализации БД и связи с ней. Затем добавьте строки, содержащиеся в файле .env.example и подставьте свои значения.
+Пример из файла с расширением .env:
+```
+# Мы используем СУБД PostgreSQL, необходимо заполнить следующие константы.
+POSTGRES_USER=your_django_user
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=db_name
+# Добавляем переменные для Django-проекта:
+DB_HOST=db
+DB_PORT=port_for_db  # Default is 5432
+# Настройки настройки переменных settings
+SECRET_KEY=DJANGO_SECRET_KEY  # Your django secret key 'django-insecure......'
+DEBUG=True # Set to True if you do need Debug.
+ALLOWED_HOSTS=127.0.0.1 # localhost by default if DEBUG=False
+```
+Запустите Docker Compose с этой конфигурацией на своём компьютере. Название файла конфигурации надо указать явным образом, ведь оно отличается от дефолтного. Имя файла указывается после ключа -f:
+```
+docker compose -f docker-compose.production.yml up
+```
+Команда описанная выше, сбилдит Docker образы и запустит backend, frontend, СУБД и Nginx в отдельных Docker контей.
+Выполните миграции в контейнере с backend и необходимо собрать статику backend'a, поочередно выполните 2 команды:
+```
+sudo docker compose -f docker-compose.yml exec backend python manage.py migrate
+sudo docker compose -f docker-compose.yml exec backend python manage.py collectstatic
+```
+Переместите собранную статику в volume(Данные можно сохранить отдельно от контейнера: для этого придумали Docker volume), 
+созданный Docker Compose для хранения статики:
+```
+sudo docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /static/static/
+```
+По завершении всех операции проект будет запущен и доступен по адресу:
+```
+http://127.0.0.1/
+```
+Останавливает все сервисы, связанные с определённой конфигурацией Docker Compose. 
+Для остановки Docker контейнеров выполните следующую команду в корне проекта:
+```
+sudo docker compose -f docker-compose.yml down
+```
 ## Как проверить работу с помощью автотестов
 
 В корне репозитория создайте файл tests.yml со следующим содержимым:
