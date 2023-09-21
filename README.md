@@ -167,4 +167,4 @@ sudo docker compose -f docker-compose.production.yml exec backend python manage.
 
 ## Автор проекта: 
 ## Павленко Дмитрий
-- [Dmitry Pavlenko](https://github.com/DPavlen)
+- Ссылка на мой профиль в GitHub [Dmitry Pavlenko](https://github.com/DPavlen)
