@@ -90,57 +90,6 @@ http://127.0.0.1/
 ```
 sudo docker compose -f docker-compose.yml down
 ```
-#### Тесты: 
-Запускаются тесты для вашего проекта.
-#### Сборка образов: 
-Git Action создает Docker-образы вашего приложения.
-#### Деплой: 
-Образы отправляются на ваш репозиторий DockerHub(https://hub.docker.com/), проект деплоится на сервер. 
-#### Уведомление: 
-В случае успеха вы получите уведомление в Telegram.(Сообщение следующего рода: Деплой Kittygram успешно выполнен!)
-
-Перейдите в GitHub в настройки репозитория Kittygram — Settings, найдите на панели слева пункт Security -->  Secrets and Variables, перейдите в Actions, нажмите на кнопку "New repository secret".
-Создайте следующие ключи:
-```
-DOCKER_PASSWORD (Ваш пароль в DockerHub https://hub.docker.com/)
-DOCKER_USERNAME (Ваш логин в DockerHub https://hub.docker.com/)
-USER (Логин вашего удалённого сервера)
-HOST (IP адресс вашего удалённого сервера)
-SSH_KEY (SSH ключ вашего удалённого сервера)
-SSH_PASSPHRASE (Пароль вашего удалённого сервера)
-TELEGRAM_TO (Ваш ID пользователя в Telegram, он же CHAT_ID)
-TELEGRAM_TOKEN (Токен вашего создангого бота в Telegram)
-```
-Подготовьте свой удалённый сервер к публикации проекта Kittygram. Очистите диск сервера от лишних данных:
-удалите кеш npm, удалите кеш APT, удалите старые системные логи, выполните поочередно следующие команды:
-```
-npm cache clean --force;
-sudo apt-get clean;
-sudo journalctl --vacuum-time=1d
-```
-Подключитесь к вашему удалённому серверу любым удобным способом. Создайте директорию kittygram/ в домашней директории сервера:
-```
-mkdir kittygram
-```
-Перейдите в созданную директорию cd kittygram и создайте в ней файл .env, затем добавьте строки, содержащиеся в файле .env.example и подставьте свои значения.
-```
-nano .env
-```
-Пример из .env файла:
-```
-# Мы используем СУБД PostgreSQL, необходимо заполнить следующие константы.
-POSTGRES_USER=your_django_user
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=db_name
-# Добавляем переменные для Django-проекта:
-DB_HOST=db
-DB_PORT=port_for_db  # Default is 5432
-# Настройки настройки переменных settings
-SECRET_KEY=DJANGO_SECRET_KEY  # Your django secret key 'django-insecure......'
-DEBUG=True # Set to True if you do need Debug.
-ALLOWED_HOSTS=127.0.0.1 # localhost by default if DEBUG=False
-```
-При подключении к вашему удалённому серверу воркер GitHub Actions создаст БД и запустит контейнер с backend'ом, используя эти константы.
 
 ## Настройка и запуск deploy.
 В локальном проекте замените в файле docker-compose.production.yml названия образов в соответствии с вашим логином на DockerHub в нижнем регистре (Например your_name/kittygram_backend).
@@ -166,5 +115,5 @@ sudo docker compose -f docker-compose.production.yml exec backend python manage.
 В конце вы можете получить доступ к сайту по его доменному имени. Все работает, браво!
 
 ## Автор проекта: 
-## Павленко Дмитрий
+### Павленко Дмитрий
 - Ссылка на мой профиль в GitHub [Dmitry Pavlenko](https://github.com/DPavlen)
